@@ -55,13 +55,12 @@ func data_returned_sam(result, response_code, headers, body):
 		set_card()
 
 func image_returned_sam(result, response_code, headers, body):
-	print(headers[0])
 	if result != HTTPRequest.RESULT_SUCCESS:
 		push_error("Image couldn't be downloaded. Try a different image.")
 	
 	var type = null
 	for field in headers:
-		if "content-type" in field:
+		if "content-type:" in field:
 			type = field.split("/")[1]
 	var image = Image.new()
 	
@@ -79,9 +78,9 @@ func image_returned_sam(result, response_code, headers, body):
 			error = null
 	if error != OK:
 		push_error("Couldn't load the image.")
+	else:
+		card_img = ImageTexture.create_from_image(image)
 
-	card_img = ImageTexture.create_from_image(image)
-	
 	set_card()
 	
 func set_card():
@@ -105,7 +104,7 @@ func set_card():
 		if view_data[date] != null:
 			avg += view_data[date]
 		sum += 1
-		
+	
 	stats["Views"] = int(avg / sum)
 	
 	for i in range(len(card_name)):
