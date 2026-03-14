@@ -56,7 +56,7 @@ func _process(delta: float) -> void:
 		if ml.y > 600:
 			if ml.x > 75 and ml.x < 1600 - 75:
 				for i in range(5):
-					if ml.x > 75 + i*275 and (ml.x < 75+(i+1)*275 or i == 4):
+					if ml.x > 75 + i*275 and (ml.x < 75+(i)*275 + 350 or i == 4):
 						highlighted = i
 						
 		for i in range(5):
