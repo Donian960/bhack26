@@ -22,11 +22,11 @@ func _ready():
 func get_random_article_sam():
 	
 	$HTTPRequest4.request_completed.connect(data_returned_sam)
-	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews|pageimages|extracts&piprop=original&exsentences=1&format=json")
+	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews|images|pageimages|extracts&piprop=original&exsectionformat=plain&exsentences=1&format=json")
 
 func data_returned_sam(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
-	print(json)
+	#print(json)
 	var query = json["query"]
 	var pages = query["pages"]
 	
@@ -47,7 +47,7 @@ func data_returned_sam(result, response_code, headers, body):
 			hasimg = true
 			
 			var image_source = page["original"]["source"]
-			#print(image_source)
+			##print(image_source)
 			$HTTPRequest6.request_completed.connect(image_returned_sam)
 			$HTTPRequest6.request(image_source)
 			
@@ -121,6 +121,38 @@ func set_card():
 		stattext += str(stats[stat])
 		stattext += "\n"
 	
-	$Label.text = stattext
+	$Label.text = "Views: " + str(stats["Views"]) + "\nScrabble: " + str(stats["Scrabble"])
+	$Label3.text = "Words: " + str(stats["Words"]) + "\nImages: " + str(stats["Images"])
+	
+	first_sentence = remove_markings(first_sentence)
 	
 	$Label2.text = first_sentence
+
+func remove_markings(text: String):
+	
+	text.remove_chars("\n")
+	text.remove_chars("\r")
+	
+	var openings = []
+	var closings = []
+	
+	for i in range(len(text)):
+		if text[i] == "<":
+			openings.append(i)
+		elif text[i] == ">":
+			closings.append(i)
+			
+	var removed = 0
+			
+	for k in range(len(openings)):
+		for i in range(openings[k], closings[k] + 1):
+			text = text.erase(i - removed)
+			removed += 1
+	
+	for i in range(len(text)):
+		if text[0] not in "abcdefghijklmnopqrstuvwxuzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890":
+			text.erase(0, 1)
+		else:
+			break
+			
+	return text
