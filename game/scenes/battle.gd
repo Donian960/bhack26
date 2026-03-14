@@ -24,7 +24,23 @@ func _ready() -> void:
 	for i in range(5):
 		player_hand[i].position.y = 700
 		player_hand[i].position.x = 75 + i*275
+		
+	$Timer.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if $TextureRect2.visible == true:
+		
+		if $Timer.time_left > 1:
+			$TextureRect2/IntroLabel1.modulate.a = 3 - $Timer.time_left
+			
+		if $Timer.time_left < 1:
+			$TextureRect2/IntroLabel1.visible = false
+			$TextureRect2/IntroLabel2.visible = true
+		
+	else:
+		
+		pass
+
+func _on_timer_timeout() -> void:
+	$TextureRect2.visible = false

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dvjjinid78yyt"]
+[gd_scene load_steps=4 format=3 uid="uid://dvjjinid78yyt"]
 
 [ext_resource type="Script" uid="uid://hbfyyqu2i8rq" path="res://scenes/battle.gd" id="1_dn72j"]
 [ext_resource type="Texture2D" uid="uid://j2qgkv1llwks" path="res://backgroundCastles.png" id="2_th188"]
+[ext_resource type="FontFile" uid="uid://bprbbpenyso06" path="res://edosz.ttf" id="3_p1qf1"]
 
 [node name="BATTLE" type="Node2D"]
 script = ExtResource("1_dn72j")
@@ -15,3 +16,43 @@ offset_bottom = 900.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_th188")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+z_index = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1600.0
+offset_bottom = 900.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_th188")
+
+[node name="IntroLabel1" type="Label" parent="TextureRect2"]
+layout_mode = 0
+offset_right = 1600.0
+offset_bottom = 900.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_p1qf1")
+theme_override_font_sizes/font_size = 200
+text = "BATTLE..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="IntroLabel2" type="Label" parent="TextureRect2"]
+visible = false
+layout_mode = 0
+offset_right = 1600.0
+offset_bottom = 900.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_p1qf1")
+theme_override_font_sizes/font_size = 200
+text = "START!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
