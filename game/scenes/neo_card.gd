@@ -6,13 +6,14 @@ var article
 
 var stats = {"Views": 0,
 "Scrabble": 0,
-"Words": 0,
+"Links": 0,
 "Images": 0}
 
 #======
 var view_data
 var image_data
 var thumbnail
+var external_links
 
 var image_type
 
@@ -37,7 +38,7 @@ func _ready():
 func get_random_article_sam():
 	
 	$HTTPRequest4.request_completed.connect(data_returned_sam)
-	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews|images|pageimages|extracts&piprop=original&exsentences=1&explaintext&format=json")
+	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=revisions|pageviews|extlinks|pageimages|images|extracts&piprop=original&exsentences=1&rvprop=timestamp&explaintext&format=json")
 
 func data_returned_sam(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
@@ -54,6 +55,8 @@ func data_returned_sam(result, response_code, headers, body):
 			
 		if "pageviews" in page.keys():
 			view_data = page["pageviews"]
+		if "extlinks" in page.keys():
+			external_links = len(page["extlinks"])
 		
 		var image_source = ""
 		var hasimg = false
@@ -135,6 +138,8 @@ func set_card():
 	if image_data != null:
 		stats["Images"] = len(image_data)
 	
+	stats["Links"] = external_links
+	
 	var stattext = ""
 	
 	for stat in stats:
@@ -144,7 +149,7 @@ func set_card():
 		stattext += "\n"
 	
 	$Stats1.text = "Views: " + str(stats["Views"]) + "\nScrabble: " + str(stats["Scrabble"])
-	$Stats2.text = "Words: " + str(stats["Words"]) + "\nImages: " + str(stats["Images"])
+	$Stats2.text = "Links: " + str(stats["Links"]) + "\nImages: " + str(stats["Images"])
 	$Article.text = article
 
 func remove_markings(text: String):
