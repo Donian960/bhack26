@@ -172,7 +172,7 @@ func _process(delta: float) -> void:
 func newcat():
 	var randnum = randi_range(1, 4)
 	if randnum == 1:
-		category = "Words"
+		category = "Links"
 	if randnum == 2:
 		category = "Images"
 	if randnum == 3:
