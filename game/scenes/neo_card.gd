@@ -38,7 +38,7 @@ func _ready():
 func get_random_article_sam():
 	
 	$HTTPRequest4.request_completed.connect(data_returned_sam)
-	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=revisions|pageviews|extlinks|pageimages|images|extracts&piprop=original&exsentences=1&rvprop=timestamp&explaintext&format=json")
+	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=revisions|pageviews|extlinks|pageimages|images|extracts&piprop=original&exsentences=1&rvprop=timestamp&explaintext&imlimit=500&ellimit=500&format=json")
 
 func data_returned_sam(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
