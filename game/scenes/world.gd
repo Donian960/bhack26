@@ -65,7 +65,7 @@ func get_random_article_sam():
 
 func data_returned_sam(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
-	
+	print(json)
 	var query = json["query"]
 	var pages = query["pages"]
 	
@@ -84,7 +84,7 @@ func data_returned_sam(result, response_code, headers, body):
 
 
 func image_returned_sam(result, response_code, headers, body):
-	
+	print(headers)
 	if result != HTTPRequest.RESULT_SUCCESS:
 		push_error("Image couldn't be downloaded. Try a different image.")
 		
