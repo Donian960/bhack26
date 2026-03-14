@@ -114,12 +114,6 @@ func set_card():
 	if image != null:
 		var image_texture = ImageTexture.create_from_image(image)
 		$ArticleImage/TextureRect.texture = image_texture
-		
-		$Article.set_size(TextHeightWithImage)
-		$Article.set_position(TextPositionWithImage)
-	else:
-		$Article.set_size(TextHeightWithoutImage)
-		$Article.set_position(TextPositionWithoutImage)
 
 	$Title.text = card_name
 	
