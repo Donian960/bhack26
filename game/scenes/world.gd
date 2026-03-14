@@ -6,6 +6,8 @@ var view_data
 var image_data
 var thumbnail
 
+var title
+
 func _ready():
 	get_random_article()
 
@@ -26,12 +28,16 @@ func page_data_returned(result, response_code, headers, body):
 	
 	print(json)
 	
+	var has_img = false
+	
 	for id in json["query"]["pages"]:
+		title = json["query"]["pages"][id]["title"]
 		if json["query"]["pages"][id].has("pageviews"):
 			view_data = json["query"]["pages"][id]["pageviews"]
 		if json["query"]["pages"][id].has("images"):
 			image_data = json["query"]["pages"][id]["images"]
 		if json["query"]["pages"][id].has("thumbnail"):
+			has_img = true
 			thumbnail = json["query"]["pages"][id]["thumbnail"]
 			$HTTPRequest3.request_completed.connect(image_returned)
 			$HTTPRequest3.request(thumbnail["source"])
@@ -39,6 +45,9 @@ func page_data_returned(result, response_code, headers, body):
 	print(view_data)
 	print(image_data)
 	print(thumbnail)
+	
+	if has_img == false:
+		new_card(null)
 
 func image_returned(result, response_code, headers, body):
 	
@@ -51,8 +60,18 @@ func image_returned(result, response_code, headers, body):
 		push_error("Couldn't load the image.")
 
 	var texture = ImageTexture.create_from_image(image)
-
-	# Display the image in a TextureRect node.
-	var texture_rect = TextureRect.new()
-	add_child(texture_rect)
-	texture_rect.texture = texture
+	
+	new_card(texture)
+	
+func new_card(texture=null):
+	
+	var obj = precard.instantiate()
+	
+	var nstats = {"Views": 0,
+		"Scrabble": 0,
+		"Words": 0,
+		"Images": 0}
+	
+	obj.receive_info(title, nstats, texture)
+	
+	add_child(obj)
