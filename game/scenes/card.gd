@@ -16,10 +16,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func receive_info(name, img, nstats):
+func receive_info(name, nstats, img=null):
 	stats = nstats
 	card_name = name
 	card_img = img
+	
+	$ColorRect2/TextureRect.texture = card_img
 	
 	$RichTextLabel.text = name
 	
@@ -28,7 +30,7 @@ func receive_info(name, img, nstats):
 	for stat in stats:
 		stattext += stat
 		stattext += ": "
-		stattext += stats[stat]
+		stattext += str(stats[stat])
 		stattext += "\n"
 	
 	$Label.text = stattext
