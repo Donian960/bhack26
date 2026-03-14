@@ -37,3 +37,4 @@ func page_data_returned(result, response_code, headers, body):
 		
 	print(view_data)
 	print(image_data)
+	print(thumbnail)
