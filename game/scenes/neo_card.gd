@@ -52,12 +52,22 @@ func data_returned_sam(result, response_code, headers, body):
 		set_card()
 
 func image_returned_sam(result, response_code, headers, body):
-	#print(headers)
 	if result != HTTPRequest.RESULT_SUCCESS:
 		push_error("Image couldn't be downloaded. Try a different image.")
-		
+	
+	var type = headers[0].split("/")[1]
 	var image = Image.new()
-	var error = image.load_jpg_from_buffer(body)
+	
+	var error = null
+	match type:
+		"jpeg":
+			error = image.load_jpg_from_buffer(body)
+		"png":
+			error = image.load_png_from_buffer(body)
+		"svg":
+			error = image.load_svg_from_buffer(body)
+		_:
+			error = null
 	if error != OK:
 		push_error("Couldn't load the image.")
 
