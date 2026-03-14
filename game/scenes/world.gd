@@ -21,7 +21,7 @@ func random_article_returned(result, response_code, headers, body):
 	var id = int(json["query"]["random"][0]["id"])
 	
 	$HTTPRequest2.request_completed.connect(page_data_returned)
-	$HTTPRequest2.request("https://en.wikipedia.org/w/api.php?action=query&pageids="+str(id)+"&prop=pageviews|images|pageimages&format=json")
+	$HTTPRequest2.request("https://en.wikipedia.org/w/api.php?action=query&pageids="+str(id)+"&prop=pageviews|images|pageimages&imlimit=1&format=json")
 
 func page_data_returned(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
@@ -36,13 +36,12 @@ func page_data_returned(result, response_code, headers, body):
 			view_data = json["query"]["pages"][id]["pageviews"]
 		if json["query"]["pages"][id].has("images"):
 			image_data = json["query"]["pages"][id]["images"]
-		if json["query"]["pages"][id].has("thumbnail"):
+		if json["query"]["pages"][id].has("pageimage"):
 			has_img = true
-			thumbnail = json["query"]["pages"][id]["thumbnail"]
+			thumbnail = json["query"]["pages"][id]["pageimage"]
 			$HTTPRequest3.request_completed.connect(image_returned)
 			$HTTPRequest3.request(thumbnail["source"])
 		
-	print(view_data)
 	print(image_data)
 	print(thumbnail)
 	

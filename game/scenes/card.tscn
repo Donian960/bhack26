@@ -9,15 +9,6 @@ script = ExtResource("1_d81rb")
 offset_right = 350.0
 offset_bottom = 500.0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_right = 350.0
-offset_bottom = 100.0
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/normal_font_size = 50
-text = "NAME"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="ColorRect2" type="ColorRect" parent="."]
 offset_left = 25.0
 offset_top = 100.0
@@ -29,6 +20,16 @@ color = Color(0.7666196, 0.76661956, 0.76661956, 1)
 layout_mode = 0
 offset_right = 300.0
 offset_bottom = 200.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_right = 350.0
+offset_bottom = 100.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/normal_font_size = 35
+text = "NAME"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Label" type="Label" parent="."]
 offset_left = 25.0
