@@ -13,6 +13,7 @@ var image_data
 var thumbnail
 
 var title
+var first_sentence
 
 func _ready():
 	get_random_article_sam()
@@ -21,7 +22,7 @@ func _ready():
 func get_random_article_sam():
 	
 	$HTTPRequest4.request_completed.connect(data_returned_sam)
-	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews|images|pageimages&piprop=original&format=json")
+	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews|pageimages|extracts&piprop=original&exsentences=1&format=json")
 
 func data_returned_sam(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
@@ -39,6 +40,8 @@ func data_returned_sam(result, response_code, headers, body):
 			view_data = page["pageviews"]
 		if "images" in page.keys():
 			image_data = page["images"]
+		if "extract" in page.keys():
+			first_sentence = page["extract"]
 		if "original" in page.keys():
 			
 			hasimg = true
