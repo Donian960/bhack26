@@ -80,6 +80,14 @@ func image_returned_sam(result, response_code, headers, body):
 	
 func set_card():
 	
+	var scrabbler = {1: "aeilnorstu",
+	2: "dg",
+	3: "bcmp",
+	4: "fhvwy",
+	5: "k",
+	8: "jx",
+	10: "qz"}
+	
 	$ColorRect2/TextureRect.texture = card_img
 	
 	$RichTextLabel.text = card_name
@@ -93,6 +101,14 @@ func set_card():
 		sum += 1
 		
 	stats["Views"] = int(avg / sum)
+	
+	for i in range(len(card_name)):
+		for score in scrabbler:
+			if card_name[i].to_lower() in scrabbler[score]:
+				stats["Scrabble"] += score
+				
+	if image_data != null:
+		stats["Images"] = len(image_data)
 	
 	var stattext = ""
 	

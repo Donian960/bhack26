@@ -7,3 +7,6 @@
 script = ExtResource("1_tjjxi")
 
 [node name="Card" parent="." instance=ExtResource("2_kiokp")]
+
+[node name="Card2" parent="." instance=ExtResource("2_kiokp")]
+position = Vector2(532, 22)
