@@ -124,3 +124,5 @@ func set_card():
 		stattext += "\n"
 	
 	$Label.text = stattext
+	
+	$Label2.text = first_sentence

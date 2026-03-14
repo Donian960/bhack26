@@ -44,6 +44,14 @@ Scrabble: 0
 Words: 0
 Images: 0"
 
+[node name="Label2" type="RichTextLabel" parent="."]
+offset_left = 180.0
+offset_top = 325.0
+offset_right = 325.0
+offset_bottom = 484.0
+horizontal_alignment = 2
+vertical_alignment = 1
+
 [node name="HTTPRequest4" type="HTTPRequest" parent="."]
 
 [node name="HTTPRequest6" type="HTTPRequest" parent="."]
