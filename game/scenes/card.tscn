@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bvh8kg4y4s8ve"]
+[gd_scene load_steps=3 format=3 uid="uid://bvh8kg4y4s8ve"]
 
 [ext_resource type="Script" uid="uid://cvh1syro6l60v" path="res://scenes/neo_card.gd" id="1_d81rb"]
+[ext_resource type="Texture2D" uid="uid://3joctnnnfnsw" path="res://Wikipedia-logo-v2.png" id="2_6u4wf"]
 
 [node name="Card" type="Node2D"]
 script = ExtResource("1_d81rb")
@@ -28,12 +29,8 @@ layout_mode = 0
 offset_left = 38.0
 offset_top = 25.0
 offset_right = 269.0
-<<<<<<< HEAD
 offset_bottom = 179.0
 texture = ExtResource("2_6u4wf")
-=======
-offset_bottom = 160.0
->>>>>>> 7ea0b7f649820b8420d80516a47977179a8dea59
 expand_mode = 1
 stretch_mode = 5
 
@@ -78,7 +75,6 @@ theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/normal_font_size = 15
 horizontal_alignment = 1
 vertical_alignment = 1
-justification_flags = 161
 
 [node name="HTTPRequest4" type="HTTPRequest" parent="."]
 

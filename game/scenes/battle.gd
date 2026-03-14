@@ -81,6 +81,9 @@ func _process(delta: float) -> void:
 				if card.stats[category] >= best_score and randi_range(1, 5) != 1:
 					best_score = card.stats[category]
 					enemy_card = card
+					
+			if enemy_card == null:
+				enemy_card = enemy_hand[randi_range(0, len(enemy_hand))]
 			
 			phase = "VERSUS"
 			
@@ -144,6 +147,9 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("click"):
 			player_card.queue_free()
 			enemy_card.queue_free()
+			
+			player_card = null
+			enemy_card = null
 			
 			if len(player_hand) != 0:
 			

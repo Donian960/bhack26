@@ -137,6 +137,9 @@ func set_card():
 				
 	if image_data != null:
 		stats["Images"] = len(image_data)
+		
+	if external_links == null:
+		external_links = 0
 	
 	stats["Links"] = external_links
 	
