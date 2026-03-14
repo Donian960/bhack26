@@ -9,12 +9,12 @@ var stats = {"Views": 0,
 "Words": 0,
 "Images": 0}
 
+#======
 var view_data
 var image_data
 var thumbnail
 
 var image_type
-var image_dimensions
 
 var scrabbler = {1: "aeilnorstu",
 	2: "dg",
@@ -23,6 +23,7 @@ var scrabbler = {1: "aeilnorstu",
 	5: "k",
 	8: "jx",
 	10: "qz"}
+	
 
 func _ready():
 	get_random_article_sam()
@@ -31,7 +32,7 @@ func _ready():
 func get_random_article_sam():
 	
 	$HTTPRequest4.request_completed.connect(data_returned_sam)
-	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews|images|pageimages|extracts&piprop=original&exsentences=1&explaintext&format=json")
+	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews|images|pageimages|extracts&piprop=original&exintro=true&explaintext&format=json")
 
 func data_returned_sam(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
@@ -39,30 +40,38 @@ func data_returned_sam(result, response_code, headers, body):
 	var query = json["query"]
 	var pages = query["pages"]
 	
-	var hasimg = false
-	
 	for k in pages:
 		var page = pages[k]
 		if "title" in page.keys():
 			card_name = page["title"]
-		if "pageviews" in page.keys():
-			view_data = page["pageviews"]
-		if "images" in page.keys():
-			image_data = page["images"]
 		if "extract" in page.keys():
 			article = page["extract"]
-		if "original" in page.keys():
 			
-			hasimg = true
-
-			var image_source = page["original"]["source"]
+		if "pageviews" in page.keys():
+			view_data = page["pageviews"]
+		
+		var image_source = ""
+		var hasimg = false
+		if "images" in page.keys():
+			image_data = page["images"]
+			
+			if "original" in page.keys():
+				hasimg = true
+				image_source = page["original"]["source"]
+			
+			#elif len(image_data) > 0:
+		#		hasimg = true
+	#			image_source = "https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/" + image_data[0]["title"]
+		
+		if hasimg:
+			image_type = image_source.split(".")[-1]
 			$HTTPRequest6.request_completed.connect(image_returned_sam)
 			$HTTPRequest6.request(image_source)
-			
-	if hasimg == false:
-		set_card()
+		else:
+			set_card()
 
 func image_returned_sam(result, response_code, headers, body):
+	
 	if result != HTTPRequest.RESULT_SUCCESS:
 		push_error("Image couldn't be downloaded. Try a different image.")
 	
@@ -91,11 +100,8 @@ func set_card():
 	if image != null:
 		var image_texture = ImageTexture.create_from_image(image)
 		$ArticleImage/TextureRect.texture = image_texture
-		$Article.set_position(Vector2(30,302))
-		$Article.set_size(Vector2(296,69))
 	else:
-		$Article.set_position(Vector2(30,90))
-		$Article.set_size(Vector2(296,312))
+		var image_texture = ImageTexture.create_from_image(Image.load_from_file("res://Wikipedia-logo-v2.png"))
 	
 	$Title.text = card_name
 	
@@ -127,9 +133,6 @@ func set_card():
 	
 	$Stats1.text = "Views: " + str(stats["Views"]) + "\nScrabble: " + str(stats["Scrabble"])
 	$Stats2.text = "Words: " + str(stats["Words"]) + "\nImages: " + str(stats["Images"])
-	
-	#first_sentence = remove_markings(first_sentence)
-	
 	$Article.text = article
 
 func remove_markings(text: String):
