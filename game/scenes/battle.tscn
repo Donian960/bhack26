@@ -63,6 +63,30 @@ text = "CATEGORY:
 fuck"
 horizontal_alignment = 1
 
+[node name="VS" type="Label" parent="."]
+visible = false
+offset_top = 300.0
+offset_right = 1600.0
+offset_bottom = 800.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_p1qf1")
+theme_override_font_sizes/font_size = 100
+text = "VS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GAME END" type="Label" parent="."]
+visible = false
+offset_top = 300.0
+offset_right = 1600.0
+offset_bottom = 800.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_p1qf1")
+theme_override_font_sizes/font_size = 300
+text = "YOU WIN!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Score1" type="Label" parent="."]
 offset_left = 30.0
 offset_top = 20.0
