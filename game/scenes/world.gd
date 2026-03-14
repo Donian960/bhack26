@@ -2,6 +2,10 @@ extends Node2D
 
 var precard = preload("res://scenes/card.tscn")
 
+var view_data
+var image_data
+var thumbnail
+
 func _ready():
 	get_random_article()
 
@@ -19,10 +23,6 @@ func random_article_returned(result, response_code, headers, body):
 
 func page_data_returned(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
-	
-	var view_data
-	var image_data
-	var thumbnail
 	
 	print(json)
 	
