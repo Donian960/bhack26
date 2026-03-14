@@ -63,21 +63,16 @@ func data_returned_sam(result, response_code, headers, body):
 		if "images" in page.keys():
 			image_data = page["images"]
 			
-			if "original" in page.keys():
-				hasimg = true
-				image_source = page["original"]["source"]
-				print("From original " + card_name)
-			
-			elif len(image_data) > 0:
-				hasimg = true
-				image_source = "https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/" + image_data[0]["title"]
-				print("From images  " + card_name)
-		if hasimg:
-			image_type = image_source.split(".")[-1]
+		if "original" in page.keys():
+			hasimg = true
+			image_source = page["original"]["source"]
 			$HTTPRequest6.request_completed.connect(image_returned_sam)
 			$HTTPRequest6.request(image_source)
 		else:
-			set_card()
+			hasimg = true
+			image_source = "https://pixabay.com/api/?key=55028260-b7c632806cd0f9116fd53cc1c&q="+sanitise(card_name)+"&image_type=photo"
+			$HTTPRequest.request_completed.connect(image_links_returned_pixabay_sam)
+			$HTTPRequest.request(image_source)
 
 func image_returned_sam(result, response_code, headers, body):
 	#if result != HTTPRequest.RESULT_SUCCESS:
@@ -111,7 +106,24 @@ func image_returned_sam(result, response_code, headers, body):
 	if error != OK:
 		image = null
 	set_card()
-	
+
+func image_links_returned_pixabay_sam(result, response_code, headers, body):
+	var json = JSON.parse_string(body.get_string_from_utf8())
+	var hits = json["hits"]
+	if len(hits) > 0:
+		var source = hits[0]["webformatURL"]
+		$HTTPRequest2.request_completed.connect(image_returned_pixabay_sam)
+		$HTTPRequest2.request(source)
+	else:
+		set_card()
+
+func image_returned_pixabay_sam(result, response_code, headers, body):
+	image = Image.new()
+	var error = image.load_jpg_from_buffer(body)
+	if error != OK:
+		print("fuckedUP")
+	set_card()
+
 func set_card():
 	
 	if image != null:
@@ -180,3 +192,11 @@ func remove_markings(text: String):
 			break
 			
 	return text
+	
+func sanitise(name):
+	var cleaned = name.replace(" ","+")
+	for char in name:
+		if char not in "abcdefghijklmnopqrstuvwxuzABCDEFGHIJKLMNOPQRSTUVWXYZ":
+			cleaned = cleaned.replace(char,"")
+	return cleaned
+	
