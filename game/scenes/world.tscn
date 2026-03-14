@@ -10,3 +10,7 @@ script = ExtResource("1_nnsk1")
 [node name="HTTPRequest2" type="HTTPRequest" parent="."]
 
 [node name="HTTPRequest3" type="HTTPRequest" parent="."]
+
+[node name="HTTPRequest4" type="HTTPRequest" parent="."]
+
+[node name="HTTPRequest6" type="HTTPRequest" parent="."]
