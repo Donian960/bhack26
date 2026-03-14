@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bvh8kg4y4s8ve"]
 
-[ext_resource type="Script" uid="uid://g3vlec7ot7h7" path="res://scenes/card.gd" id="1_d81rb"]
+[ext_resource type="Script" uid="uid://cvh1syro6l60v" path="res://scenes/neo_card.gd" id="1_d81rb"]
 
 [node name="Card" type="Node2D"]
 script = ExtResource("1_d81rb")
@@ -20,6 +20,7 @@ color = Color(0.7666196, 0.76661956, 0.76661956, 1)
 layout_mode = 0
 offset_right = 300.0
 offset_bottom = 200.0
+expand_mode = 1
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 offset_right = 350.0
@@ -42,3 +43,7 @@ text = "Views: 0
 Scrabble: 0
 Words: 0
 Images: 0"
+
+[node name="HTTPRequest4" type="HTTPRequest" parent="."]
+
+[node name="HTTPRequest6" type="HTTPRequest" parent="."]
