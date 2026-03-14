@@ -89,10 +89,7 @@ func image_returned_sam(result, response_code, headers, body):
 		print("unknown file type recieved")
 		print(image_type)
 	if error != OK:
-		print(error)
-		push_error("Couldn't load the image.")
-		
-
+		image = null
 	set_card()
 	
 func set_card():
