@@ -79,17 +79,18 @@ func data_returned_sam(result, response_code, headers, body):
 func image_returned_sam(result, response_code, headers, body):
 	#if result != HTTPRequest.RESULT_SUCCESS:
 	#	push_error("Image couldn't be downloaded. Try a different image.")
-	var redirect = false
+	var failed = false
 	if response_code == 400:
-		print(" OH DEAR Invalid request")
-		print(body.get_string_from_utf8())
-		return
+		failed = true
 	if response_code == 301:
 		for header in headers:
 			if header.contains("Location"):
 				print("REDIRECTING to " + header.lstrip("Location:"))
 				$HTTPRequest6.request(header.lstrip("Location:"))
-				return
+				failed = true
+	if failed:
+		set_card()
+		return
 	
 	image = Image.new()
 	
