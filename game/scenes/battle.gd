@@ -78,7 +78,7 @@ func _process(delta: float) -> void:
 			
 			var best_score = 0
 			for card in enemy_hand:
-				if card.stats[category] >= best_score:
+				if card.stats[category] >= best_score and randi_range(1, 5) != 1:
 					best_score = card.stats[category]
 					enemy_card = card
 			
@@ -168,6 +168,9 @@ func _process(delta: float) -> void:
 			$"GAME END".text = "YOU LOSE!"
 		else:
 			$"GAME END".text = "DRAW!"
+			
+		if Input.is_action_just_pressed("click"):
+			get_tree().change_scene_to_file("res://scenes/world_2.tscn")
 				
 func newcat():
 	var randnum = randi_range(1, 4)
