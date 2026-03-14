@@ -104,7 +104,8 @@ func set_card():
 			if card_name[i].to_lower() in scrabbler[score]:
 				stats["Scrabble"] += score
 				
-	stats["Images"] = len(image_data)
+	if image_data != null:
+		stats["Images"] = len(image_data)
 	
 	var stattext = ""
 	
