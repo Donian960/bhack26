@@ -1,7 +1,8 @@
 extends Node2D
 
 var card_name
-var card_img
+var image
+var article
 
 var stats = {"Views": 0,
 "Scrabble": 0,
@@ -12,8 +13,16 @@ var view_data
 var image_data
 var thumbnail
 
-var title
-var first_sentence
+var image_type
+var image_dimensions
+
+var scrabbler = {1: "aeilnorstu",
+	2: "dg",
+	3: "bcmp",
+	4: "fhvwy",
+	5: "k",
+	8: "jx",
+	10: "qz"}
 
 func _ready():
 	get_random_article_sam()
@@ -22,11 +31,10 @@ func _ready():
 func get_random_article_sam():
 	
 	$HTTPRequest4.request_completed.connect(data_returned_sam)
-	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews|pageimages|extracts&piprop=original&exsentences=1&explaintext&format=json")
+	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews|pageimages|extracts&piprop=original&exintro=1&explaintext&format=json")
 
 func data_returned_sam(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
-	#print(json)
 	var query = json["query"]
 	var pages = query["pages"]
 	
@@ -41,12 +49,14 @@ func data_returned_sam(result, response_code, headers, body):
 		if "images" in page.keys():
 			image_data = page["images"]
 		if "extract" in page.keys():
-			first_sentence = page["extract"]
+			article = page["extract"]
 		if "original" in page.keys():
 			
 			hasimg = true
-			
+
 			var image_source = page["original"]["source"]
+			image_type = image_source.split(".")[-1]
+			print(card_name + "has image. Type:" + image_type + ".")
 			##print(image_source)
 			$HTTPRequest6.request_completed.connect(image_returned_sam)
 			$HTTPRequest6.request(image_source)
@@ -55,45 +65,41 @@ func data_returned_sam(result, response_code, headers, body):
 		set_card()
 
 func image_returned_sam(result, response_code, headers, body):
-	print("Image gotten")
 	if result != HTTPRequest.RESULT_SUCCESS:
 		push_error("Image couldn't be downloaded. Try a different image.")
 	
-	var type = "jpg"
-	for field in headers:
-		if "content-type:" in field:
-			type = field
-	
-	var image = Image.new()
+	image = Image.new()
 	
 	var error = null
 	
-	if "jpeg" in type or "jpg" in type:
+	if image_type in ["jpg", "jpeg", "JPG", "JPEG"]:
 		error = image.load_jpg_from_buffer(body)
-	elif "png" in type:
+	elif image_type in ["png"]:
 		error = image.load_png_from_buffer(body)
-	elif "svg" in type:
+	elif image_type in ["svg"]:
 		error = image.load_svg_from_buffer(body)
-	if error != OK:
-		push_error("Couldn't load the image.")
 	else:
-		card_img = ImageTexture.create_from_image(image)
+		print("unknown file type recieved")
+		print(image_type)
+	if error != OK:
+		print(error)
+		push_error("Couldn't load the image.")
+		
 
 	set_card()
 	
 func set_card():
 	
-	var scrabbler = {1: "aeilnorstu",
-	2: "dg",
-	3: "bcmp",
-	4: "fhvwy",
-	5: "k",
-	8: "jx",
-	10: "qz"}
+	if image != null:
+		var image_texture = ImageTexture.create_from_image(image)
+		$ArticleImage/TextureRect.texture = image_texture
+		$Article.set_position(Vector2(30,302))
+		$Article.set_size(Vector2(296,69))
+	else:
+		$Article.set_position(Vector2(30,90))
+		$Article.set_size(Vector2(296,312))
 	
-	$ColorRect2/TextureRect.texture = card_img
-	
-	$RichTextLabel.text = card_name
+	$Title.text = card_name
 	
 	var avg = 0
 	var sum = 0
@@ -121,12 +127,12 @@ func set_card():
 		stattext += str(stats[stat])
 		stattext += "\n"
 	
-	$Label.text = "Views: " + str(stats["Views"]) + "\nScrabble: " + str(stats["Scrabble"])
-	$Label3.text = "Words: " + str(stats["Words"]) + "\nImages: " + str(stats["Images"])
+	$Stats1.text = "Views: " + str(stats["Views"]) + "\nScrabble: " + str(stats["Scrabble"])
+	$Stats2.text = "Words: " + str(stats["Words"]) + "\nImages: " + str(stats["Images"])
 	
-	first_sentence = remove_markings(first_sentence)
+	#first_sentence = remove_markings(first_sentence)
 	
-	$Label2.text = first_sentence
+	$Article.text = article
 
 func remove_markings(text: String):
 	
