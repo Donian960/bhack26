@@ -9,6 +9,13 @@ script = ExtResource("1_d81rb")
 [node name="Background" type="ColorRect" parent="."]
 offset_right = 350.0
 offset_bottom = 500.0
+color = Color(0.70796657, 0.7079665, 0.7079665, 1)
+
+[node name="Background2" type="ColorRect" parent="."]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 345.0
+offset_bottom = 495.0
 
 [node name="ArticleImage" type="ColorRect" parent="."]
 offset_left = 25.0
@@ -28,7 +35,9 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="Title" type="RichTextLabel" parent="."]
-offset_right = 350.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 340.0
 offset_bottom = 100.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)

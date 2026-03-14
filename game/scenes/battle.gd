@@ -5,10 +5,17 @@ var precard = preload("res://scenes/card.tscn")
 var enemy_hand = []
 var player_hand = []
 
+var pscore = 0
+var escore = 0
+
 var phase = "TIMER"
+
+var category
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	
+	$TextureRect2.visible = true
 	
 	for i in range(5):
 		var ncard = precard.instantiate()
@@ -46,7 +53,7 @@ func _process(delta: float) -> void:
 		
 		var ml = get_viewport().get_mouse_position()
 		
-		if ml.y > 700:
+		if ml.y > 600:
 			if ml.x > 75 and ml.x < 1600 - 75:
 				for i in range(5):
 					if ml.x > 75 + i*275 and (ml.x < 75+(i+1)*275 or i == 4):
@@ -58,7 +65,21 @@ func _process(delta: float) -> void:
 			if i == highlighted:
 				player_hand[i].position.y = 350
 				player_hand[i].z_index = 1
+				
+func newcat():
+	var randnum = randi_range(1, 4)
+	if randnum == 1:
+		category = "Words"
+	if randnum == 2:
+		category = "Images"
+	if randnum == 3:
+		category = "Scrabble"
+	if randnum == 4:
+		category = "Views"
+		
+	$Category.text = "CATEGORY: \n" + category
 
 func _on_timer_timeout() -> void:
 	$TextureRect2.visible = false
 	phase = "HAND"
+	newcat()
