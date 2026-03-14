@@ -22,11 +22,11 @@ func _ready():
 func get_random_article_sam():
 	
 	$HTTPRequest4.request_completed.connect(data_returned_sam)
-	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews|pageimages|extracts&piprop=original&exsentences=1&explaintext&format=json")
+	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews|images|pageimages|extracts&piprop=original&exsentences=1&explaintext&format=json")
 
 func data_returned_sam(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
-	#print(json)
+	##print(json)
 	var query = json["query"]
 	var pages = query["pages"]
 	
@@ -47,7 +47,7 @@ func data_returned_sam(result, response_code, headers, body):
 			hasimg = true
 			
 			var image_source = page["original"]["source"]
-			##print(image_source)
+			###print(image_source)
 			$HTTPRequest6.request_completed.connect(image_returned_sam)
 			$HTTPRequest6.request(image_source)
 			
@@ -55,7 +55,7 @@ func data_returned_sam(result, response_code, headers, body):
 		set_card()
 
 func image_returned_sam(result, response_code, headers, body):
-	print("Image gotten")
+	#print("Image gotten")
 	if result != HTTPRequest.RESULT_SUCCESS:
 		push_error("Image couldn't be downloaded. Try a different image.")
 	
