@@ -26,9 +26,14 @@ color = Color(0.7647059, 0.7647059, 0.7647059, 0)
 [node name="TextureRect" type="TextureRect" parent="ArticleImage"]
 layout_mode = 0
 offset_left = 38.0
-offset_top = 6.0
+offset_top = 25.0
 offset_right = 269.0
+<<<<<<< HEAD
 offset_bottom = 160.0
+=======
+offset_bottom = 179.0
+texture = ExtResource("2_6u4wf")
+>>>>>>> c04c0cdfa5a5cf9d39562e8e1fe5cc5ba79f9f74
 expand_mode = 1
 stretch_mode = 5
 

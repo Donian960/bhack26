@@ -12,6 +12,9 @@ var phase = "TIMER"
 
 var category
 
+var player_card
+var enemy_card
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
@@ -30,11 +33,15 @@ func _ready() -> void:
 	for card in enemy_hand:
 		card.visible = false
 		
-	for i in range(5):
-		player_hand[i].position.y = 700
-		player_hand[i].position.x = 75 + i*275
+	reposition_hand()
 		
 	$Timer.start()
+	
+func reposition_hand():
+		
+	for i in range(len(player_hand)):
+		player_hand[i].position.y = 700
+		player_hand[i].position.x = 800 + (i - float(len(player_hand)) / 2) * 300 - 25
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -55,16 +62,112 @@ func _process(delta: float) -> void:
 		
 		if ml.y > 600:
 			if ml.x > 75 and ml.x < 1600 - 75:
-				for i in range(5):
-					if ml.x > 75 + i*275 and (ml.x < 75+(i+1)*275 or i == 4):
+				for i in range(len(player_hand)):
+					if ml.x > player_hand[i].position.x and ml.x < player_hand[i].position.x + 350:
 						highlighted = i
 						
-		for i in range(5):
+		for i in range(len(player_hand)):
 			player_hand[i].position.y = 700
 			player_hand[i].z_index = 0
 			if i == highlighted:
 				player_hand[i].position.y = 350
 				player_hand[i].z_index = 1
+				
+		if highlighted != null and Input.is_action_just_pressed("click"):
+			player_card = player_hand[highlighted]
+			
+			var best_score = 0
+			for card in enemy_hand:
+				if card.stats[category] >= best_score:
+					best_score = card.stats[category]
+					enemy_card = card
+			
+			phase = "VERSUS"
+			
+			for card in player_hand:
+				card.visible = false
+				
+			for card in enemy_hand:
+				card.visible = false
+				
+			player_hand.erase(player_card)
+			
+			enemy_hand.erase(enemy_card)
+			
+			player_card.visible = true
+			enemy_card.visible = true
+			
+			player_card.position.x = 400 - (350 / 2)
+			enemy_card.position.x = 1200 - (350 / 2)
+			
+			player_card.position.y = 300
+			enemy_card.position.y = 300
+			
+			$VS.visible = true
+			
+	elif phase == "VERSUS":
+		
+		if Input.is_action_just_pressed("click"):
+			
+			var side = "DRAW!"
+			
+			phase = "WINNER"
+			
+			var wincard = null
+			
+			if player_card.stats[category] > enemy_card.stats[category]:
+				pscore += 1
+				side = "WIN!"
+				
+				$Score1.text = str(pscore)
+				
+				wincard = player_card
+				enemy_card.visible = false
+				
+			elif player_card.stats[category] < enemy_card.stats[category]:
+				escore += 1
+				side = "LOSE!"
+				
+				$Score2.text = str(escore)
+				
+				wincard = enemy_card
+				player_card.visible = false
+				
+			$Category.text = side
+			$VS.visible = false
+			
+			if wincard != null:
+				wincard.position.x = 800 - (350 / 2)
+				
+	elif phase == "WINNER":
+		
+		if Input.is_action_just_pressed("click"):
+			player_card.queue_free()
+			enemy_card.queue_free()
+			
+			if len(player_hand) != 0:
+			
+				newcat()
+				
+				reposition_hand()
+				
+				phase = "HAND"
+				
+			else:
+				phase = "GAME END"
+				
+	elif phase == "GAME END":
+		
+		$Category.text = "GAME OVER"
+		
+		$"GAME END".visible = true
+		
+		if pscore > escore:
+			$"GAME END".text = "YOU WIN!"
+		elif escore > pscore:
+			$"GAME END".text = "YOU LOSE!"
+		else:
+			$"GAME END".text = "DRAW!"
 				
 func newcat():
 	var randnum = randi_range(1, 4)
@@ -77,7 +180,10 @@ func newcat():
 	if randnum == 4:
 		category = "Views"
 		
-	$Category.text = "CATEGORY: \n" + category
+	$Category.text = "- CATEGORY -\n" + category
+	
+	for card in player_hand:
+		card.visible = true
 
 func _on_timer_timeout() -> void:
 	$TextureRect2.visible = false
