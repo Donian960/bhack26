@@ -23,7 +23,12 @@ var scrabbler = {1: "aeilnorstu",
 	5: "k",
 	8: "jx",
 	10: "qz"}
-	
+
+#==========
+var TextPositionWithImage = Vector2(24,313)
+var TextHeightWithImage = Vector2(296,69)
+var TextPositionWithoutImage = Vector2(27,107)
+var TextHeightWithoutImage = Vector2(296, 278)
 
 func _ready():
 	get_random_article_sam()
@@ -32,7 +37,7 @@ func _ready():
 func get_random_article_sam():
 	
 	$HTTPRequest4.request_completed.connect(data_returned_sam)
-	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews|images|pageimages|extracts&piprop=original&exintro=true&explaintext&format=json")
+	$HTTPRequest4.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews|images|pageimages|extracts&piprop=original&exsentences=1&explaintext&format=json")
 
 func data_returned_sam(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
@@ -58,11 +63,12 @@ func data_returned_sam(result, response_code, headers, body):
 			if "original" in page.keys():
 				hasimg = true
 				image_source = page["original"]["source"]
+				print("From original " + card_name)
 			
-			#elif len(image_data) > 0:
-		#		hasimg = true
-	#			image_source = "https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/" + image_data[0]["title"]
-		
+			elif len(image_data) > 0:
+				hasimg = true
+				image_source = "https://en.wikipedia.org/w/index.php?title=Special:Redirect/file/" + image_data[0]["title"]
+				print("From images  " + card_name)
 		if hasimg:
 			image_type = image_source.split(".")[-1]
 			$HTTPRequest6.request_completed.connect(image_returned_sam)
@@ -71,14 +77,24 @@ func data_returned_sam(result, response_code, headers, body):
 			set_card()
 
 func image_returned_sam(result, response_code, headers, body):
-	
-	if result != HTTPRequest.RESULT_SUCCESS:
-		push_error("Image couldn't be downloaded. Try a different image.")
+	#if result != HTTPRequest.RESULT_SUCCESS:
+	#	push_error("Image couldn't be downloaded. Try a different image.")
+	var redirect = false
+	if response_code == 400:
+		print(" OH DEAR Invalid request")
+		print(body.get_string_from_utf8())
+		return
+	if response_code == 301:
+		for header in headers:
+			if header.contains("Location"):
+				print("REDIRECTING to " + header.lstrip("Location:"))
+				$HTTPRequest6.request(header.lstrip("Location:"))
+				return
 	
 	image = Image.new()
 	
 	var error = null
-	
+
 	if image_type in ["jpg", "jpeg", "JPG", "JPEG"]:
 		error = image.load_jpg_from_buffer(body)
 	elif image_type in ["png"]:
@@ -97,9 +113,13 @@ func set_card():
 	if image != null:
 		var image_texture = ImageTexture.create_from_image(image)
 		$ArticleImage/TextureRect.texture = image_texture
+		
+		$Article.set_size(TextHeightWithImage)
+		$Article.set_position(TextPositionWithImage)
 	else:
-		var image_texture = ImageTexture.create_from_image(Image.load_from_file("res://Wikipedia-logo-v2.png"))
-	
+		$Article.set_size(TextHeightWithoutImage)
+		$Article.set_position(TextPositionWithoutImage)
+
 	$Title.text = card_name
 	
 	var avg = 0
