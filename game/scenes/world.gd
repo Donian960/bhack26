@@ -1,16 +1,13 @@
 extends Node2D
 
-<<<<<<< HEAD
 var precard = preload("res://scenes/card.tscn")
 
-=======
->>>>>>> 96e0ee9ecc74ebd9ea5722d6bd041f460a153a36
 func _ready():
 	get_random_article()
 
 func get_random_article():
 	$HTTPRequest.request_completed.connect(random_article_returned)
-	$HTTPRequest.request("https://en.wikipedia.org/w/api.php?action=query&generator=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews&prop=images&format=json")
+	$HTTPRequest.request("https://en.wikipedia.org/w/api.php?action=query&list=random&grnnamespace=0&grnfilterredir=nonredirects&prop=pageviews&prop=images&format=json")
 
 func random_article_returned(result, response_code, headers, body):
 	
@@ -39,3 +36,4 @@ func page_data_returned(result, response_code, headers, body):
 		
 	print(view_data)
 	print(image_data)
+	print(thumbnail)
