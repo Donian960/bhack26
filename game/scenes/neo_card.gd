@@ -126,4 +126,26 @@ func set_card():
 	
 	$Label.text = stattext
 	
+	first_sentence = remove_markings(first_sentence)
+	
 	$Label2.text = first_sentence
+
+func remove_markings(text: String):
+	
+	var openings = []
+	var closings = []
+	
+	for i in range(len(text)):
+		if text[i] == "<":
+			openings.append(i)
+		elif text[i] == ">":
+			closings.append(i)
+			
+	var removed = 0
+			
+	for k in range(len(openings)):
+		for i in range(openings[k], closings[k] + 1):
+			text = text.erase(i - removed)
+			removed += 1
+			
+	return text
