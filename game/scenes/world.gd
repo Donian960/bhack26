@@ -59,12 +59,9 @@ func image_returned(result, response_code, headers, body):
 		push_error("Couldn't load the image.")
 
 	var texture = ImageTexture.create_from_image(image)
-<<<<<<< HEAD
 
-	# Display the image in a TextureRect node.
-	var texture_rect = TextureRect.new()
-	add_child(texture_rect)
-	texture_rect.texture = texture
+	
+	new_card(texture)
 	
 
 func get_random_article_sam():
@@ -73,7 +70,7 @@ func get_random_article_sam():
 
 func data_returned_sam(result, response_code, headers, body):
 	var json = JSON.parse_string(body.get_string_from_utf8())
-	print(json)
+	#print(json)
 	var query = json["query"]
 	var pages = query["pages"]
 	
@@ -92,12 +89,24 @@ func data_returned_sam(result, response_code, headers, body):
 
 
 func image_returned_sam(result, response_code, headers, body):
-	print(headers)
 	if result != HTTPRequest.RESULT_SUCCESS:
 		push_error("Image couldn't be downloaded. Try a different image.")
-		
+	
+	print(headers[0])
+	var type = headers[0].split("/")[1]
+	print(type)
 	var image = Image.new()
-	var error = image.load_jpg_from_buffer(body)
+	
+	var error = null
+	match type:
+		"jpeg":
+			error = image.load_jpg_from_buffer(body)
+		"png":
+			error = image.load_png_from_buffer(body)
+		"svg":
+			error = image.load_svg_from_buffer(body)
+		_:
+			error = null
 	if error != OK:
 		push_error("Couldn't load the image.")
 
@@ -107,9 +116,7 @@ func image_returned_sam(result, response_code, headers, body):
 	var texture_rect = TextureRect.new()
 	add_child(texture_rect)
 	texture_rect.texture = texture
-=======
-	
-	new_card(texture)
+
 	
 func new_card(texture=null):
 	
@@ -123,4 +130,3 @@ func new_card(texture=null):
 	obj.receive_info(title, nstats, texture)
 	
 	add_child(obj)
->>>>>>> be4a4c3cccff89a821b2089d63baa3f82fc5226d
