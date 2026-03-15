@@ -174,6 +174,8 @@ func _process(delta: float) -> void:
 				remove_child(player_card)
 				Global.add_child(player_card)
 				
+				player_card.visible = false
+				
 			else:
 			
 				player_card.queue_free()
