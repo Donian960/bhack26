@@ -20,7 +20,7 @@ func _ready() -> void:
 	
 	$TextureRect2.visible = true
 	
-	for i in range(5):
+	for i in range(9):
 		var ncard = precard.instantiate()
 		var ocard = precard.instantiate()
 		
@@ -41,7 +41,7 @@ func reposition_hand():
 		
 	for i in range(len(player_hand)):
 		player_hand[i].position.y = 700
-		player_hand[i].position.x = 800 + (i - float(len(player_hand)) / 2) * 300 - 25
+		player_hand[i].position.x = 800 + (i - float(len(player_hand)) / 2) * 150 - 100
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -60,7 +60,7 @@ func _process(delta: float) -> void:
 		
 		var ml = get_viewport().get_mouse_position()
 		
-		if ml.y > 600:
+		if ml.y > 400:
 			if ml.x > 75 and ml.x < 1600 - 75:
 				for i in range(len(player_hand)):
 					if ml.x > player_hand[i].position.x and ml.x < player_hand[i].position.x + 350:
