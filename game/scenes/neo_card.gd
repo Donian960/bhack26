@@ -16,6 +16,7 @@ var thumbnail
 var external_links
 
 var image_type
+var is_stock_image = false
 
 var scrabbler = {1: "aeilnorstu",
 	2: "dg",
@@ -105,6 +106,7 @@ func image_returned_sam(result, response_code, headers, body):
 		print(image_type)
 	if error != OK:
 		image = null
+	is_stock_image = false
 	set_card()
 
 func image_links_returned_pixabay_sam(result, response_code, headers, body):
@@ -122,6 +124,7 @@ func image_returned_pixabay_sam(result, response_code, headers, body):
 	var error = image.load_jpg_from_buffer(body)
 	if error != OK:
 		print("fuckedUP")
+	is_stock_image=true
 	set_card()
 
 func set_card():
@@ -129,6 +132,11 @@ func set_card():
 	if image != null:
 		var image_texture = ImageTexture.create_from_image(image)
 		$ArticleImage/TextureRect.texture = image_texture
+	
+	if is_stock_image:
+		$attribution.text = "Stand-in image source from Pixabay"
+	else:
+		$attribution.text = "Image from Wikipedia"
 
 	$Title.text = card_name
 	

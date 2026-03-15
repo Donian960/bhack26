@@ -22,15 +22,35 @@ offset_left = 25.0
 offset_top = 100.0
 offset_right = 325.0
 offset_bottom = 300.0
+size_flags_horizontal = 4
 color = Color(0.7647059, 0.7647059, 0.7647059, 0)
 
 [node name="TextureRect" type="TextureRect" parent="ArticleImage"]
-layout_mode = 0
-offset_right = 300.0
-offset_bottom = 200.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
 texture = ExtResource("2_6u4wf")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="attribution" type="RichTextLabel" parent="."]
+offset_left = 176.0
+offset_top = 473.0
+offset_right = 343.0
+offset_bottom = 493.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 9
+text = "Image from WIkipedia"
+scroll_active = false
+horizontal_alignment = 2
+vertical_alignment = 2
 
 [node name="Title" type="RichTextLabel" parent="."]
 offset_left = 10.0
