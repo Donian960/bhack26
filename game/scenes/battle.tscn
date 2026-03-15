@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://hbfyyqu2i8rq" path="res://scenes/battle.gd" id="1_dn72j"]
 [ext_resource type="Texture2D" uid="uid://j2qgkv1llwks" path="res://backgroundCastles.png" id="2_th188"]
-[ext_resource type="FontFile" uid="uid://bprbbpenyso06" path="res://edosz.ttf" id="3_p1qf1"]
+[ext_resource type="FontFile" uid="uid://u51g8nuhwqyj" path="res://LinLibertine_aS.ttf" id="3_p1qf1"]
 
 [node name="BATTLE" type="Node2D"]
 script = ExtResource("1_dn72j")
