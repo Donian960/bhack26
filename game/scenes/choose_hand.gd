@@ -22,7 +22,7 @@ func _ready() -> void:
 func reposition_hand():
 		
 	for i in range(len(Global.player_chosen_hand)):
-		Global.player_chosen_hand[i].zindex = i
+		Global.player_chosen_hand[i].z_index = i
 		Global.player_chosen_hand[i].position.y = 700
 		Global.player_chosen_hand[i].position.x = 800 + (i - float(len(Global.player_chosen_hand)) / 2) * 150 - 100
 
@@ -63,6 +63,6 @@ func _on_button_pressed() -> void:
 	for card in all_cards:
 		remove_child(card)
 		Global.add_child(card)
-		card.zindex = 0
+		card.z_index = 0
 		
 	get_tree().change_scene_to_file("res://scenes/battle.tscn")
