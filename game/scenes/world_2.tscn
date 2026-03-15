@@ -40,11 +40,13 @@ text = "PLAY - RANDOM"
 
 [node name="Button2" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_o7h1l")
 theme_override_font_sizes/font_size = 80
 text = "PLAY - CHOOSE"
 
 [node name="GAMBLING" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("4_o7h1l")
 theme_override_font_sizes/font_size = 80
 text = "GAMBLING"
 
