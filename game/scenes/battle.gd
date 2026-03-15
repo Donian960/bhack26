@@ -20,18 +20,42 @@ func _ready() -> void:
 	
 	$TextureRect2.visible = true
 	
-	for i in range(9):
-		var ncard = precard.instantiate()
-		var ocard = precard.instantiate()
-		
-		enemy_hand.append(ncard)
-		player_hand.append(ocard)
-		
-		add_child(ncard)
-		add_child(ocard)
-		
-	for card in enemy_hand:
-		card.visible = false
+	if Global.uses_random_hand == true:
+	
+		for i in range(9):
+			var ncard = precard.instantiate()
+			var ocard = precard.instantiate()
+			
+			enemy_hand.append(ncard)
+			player_hand.append(ocard)
+			
+			add_child(ncard)
+			add_child(ocard)
+			
+		for card in enemy_hand:
+			card.visible = false
+			
+	else:
+	
+		for i in range(9):
+			var ncard = precard.instantiate()
+			
+			enemy_hand.append(ncard)
+			
+			add_child(ncard)
+			
+		for card in enemy_hand:
+			card.visible = false
+			
+		for card in Global.player_chosen_hand:
+			Global.remove_child(card)
+			add_child(card)
+			player_hand.append(card)
+			
+		while len(player_hand) < 9:
+			var ocard = precard.instantiate()
+			player_hand.append(ocard)
+			add_child(ocard)
 		
 	reposition_hand()
 		
@@ -145,7 +169,15 @@ func _process(delta: float) -> void:
 	elif phase == "WINNER":
 		
 		if Input.is_action_just_pressed("click"):
-			player_card.queue_free()
+			
+			if player_card in Global.player_owned_cards:
+				remove_child(player_card)
+				Global.add_child(player_card)
+				
+			else:
+			
+				player_card.queue_free()
+				
 			enemy_card.queue_free()
 			
 			player_card = null
@@ -176,6 +208,7 @@ func _process(delta: float) -> void:
 			$"GAME END".text = "DRAW!"
 			
 		if Input.is_action_just_pressed("click"):
+			Global.money += pscore
 			get_tree().change_scene_to_file("res://scenes/world_2.tscn")
 				
 func newcat():

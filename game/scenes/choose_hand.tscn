@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2ohj41y1m3aa"]
+
+[ext_resource type="Script" uid="uid://c61j06afjat0w" path="res://scenes/choose_hand.gd" id="1_1rp8g"]
+[ext_resource type="Texture2D" uid="uid://j2qgkv1llwks" path="res://backgroundCastles.png" id="1_ou4ta"]
+
+[node name="Choose Hand" type="Node2D"]
+script = ExtResource("1_1rp8g")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1600.0
+offset_bottom = 900.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ou4ta")
+
+[node name="HScrollBar" type="HScrollBar" parent="."]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 1590.0
+offset_bottom = 30.0
+page = 4.0
+custom_step = 1.0
+
+[node name="Button" type="Button" parent="."]
+visible = false
+offset_left = 600.0
+offset_top = 590.0
+offset_right = 1000.0
+offset_bottom = 690.0
+theme_override_font_sizes/font_size = 50
+text = "START BATTLE"
+
+[connection signal="value_changed" from="HScrollBar" to="." method="_on_h_scroll_bar_value_changed"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

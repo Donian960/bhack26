@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://ua10p4ysxnhb"]
+
+[ext_resource type="Script" uid="uid://x2va1p3md6i" path="res://scenes/gambling.gd" id="1_1pxoj"]
+[ext_resource type="Texture2D" uid="uid://c6lwjhmxcf3n8" path="res://backgroundForest.png" id="2_1pxoj"]
+
+[node name="gambling" type="Node2D"]
+script = ExtResource("1_1pxoj")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1600.0
+offset_bottom = 900.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_1pxoj")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 200.0
+offset_bottom = 65.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 80
+text = "MONEY: 0"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 400.0
+offset_top = 600.0
+offset_right = 1200.0
+offset_bottom = 850.0
+theme_override_constants/separation = 40
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 80
+text = "GO GAMBLE!"
+
+[node name="Button2" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "BACK"
+
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_button_2_pressed"]
