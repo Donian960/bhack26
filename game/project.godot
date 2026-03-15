@@ -24,6 +24,10 @@ Global="*res://global.gd"
 window/size/viewport_width=1600
 window/size/viewport_height=900
 
+[gui]
+
+theme/custom_font="uid://oy8o40nmg7k1"
+
 [input]
 
 click={
