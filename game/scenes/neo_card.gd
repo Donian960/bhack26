@@ -69,6 +69,8 @@ func data_returned_sam(result, response_code, headers, body):
 			image_source = page["original"]["source"]
 			$HTTPRequest6.request_completed.connect(image_returned_sam)
 			$HTTPRequest6.request(image_source)
+			is_stock_image = false
+			image_type = image_source.split(".")[-1]
 		else:
 			hasimg = true
 			image_source = "https://pixabay.com/api/?key=55028260-b7c632806cd0f9116fd53cc1c&q="+sanitise(card_name)+"&image_type=photo"
@@ -102,10 +104,10 @@ func image_returned_sam(result, response_code, headers, body):
 	elif image_type in ["svg"]:
 		error = image.load_svg_from_buffer(body)
 	else:
-		print("unknown file type recieved")
-		print(image_type)
+		pass
 	if error != OK:
 		image = null
+	print("%s: HTTP %d, type %s, result %d"% [card_name, response_code, image_type, error])
 	is_stock_image = false
 	set_card()
 
@@ -133,7 +135,7 @@ func set_card():
 		var image_texture = ImageTexture.create_from_image(image)
 		$ArticleImage/TextureRect.texture = image_texture
 	
-	if is_stock_image:
+	if is_stock_image == true:
 		$attribution.text = "Stand-in image source from Pixabay"
 	else:
 		$attribution.text = "Image from Wikipedia"
