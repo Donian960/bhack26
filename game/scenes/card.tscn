@@ -38,6 +38,8 @@ offset_left = -150.0
 offset_top = -100.0
 offset_right = 150.0
 offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2_6u4wf")
 expand_mode = 1
 stretch_mode = 5
@@ -64,7 +66,7 @@ theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_fonts/normal_font = ExtResource("4_sy11y")
 theme_override_font_sizes/normal_font_size = 25
-text = "NAME"
+text = "LOADING..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -98,7 +100,7 @@ offset_bottom = 382.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("3_kg30u")
 theme_override_font_sizes/normal_font_size = 15
-text = "This is a test article"
+text = "Article is loading..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
