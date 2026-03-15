@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bvh8kg4y4s8ve"]
+[gd_scene load_steps=5 format=3 uid="uid://bvh8kg4y4s8ve"]
 
 [ext_resource type="Script" uid="uid://cvh1syro6l60v" path="res://scenes/neo_card.gd" id="1_d81rb"]
 [ext_resource type="Texture2D" uid="uid://3joctnnnfnsw" path="res://Wikipedia-logo-v2.png" id="2_6u4wf"]
+[ext_resource type="FontFile" uid="uid://8g4fa1xbir5d" path="res://geo_1.ttf" id="3_kg30u"]
+[ext_resource type="FontFile" uid="uid://oy8o40nmg7k1" path="res://LiberationSerif-Regular.ttf" id="4_sy11y"]
 
 [node name="Card" type="Node2D"]
 script = ExtResource("1_d81rb")
@@ -46,6 +48,7 @@ offset_top = 473.0
 offset_right = 343.0
 offset_bottom = 493.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("3_kg30u")
 theme_override_font_sizes/normal_font_size = 9
 text = "Image from WIkipedia"
 scroll_active = false
@@ -59,6 +62,7 @@ offset_right = 340.0
 offset_bottom = 100.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = ExtResource("4_sy11y")
 theme_override_font_sizes/normal_font_size = 25
 text = "NAME"
 horizontal_alignment = 1
@@ -70,6 +74,7 @@ offset_top = 401.0
 offset_right = 325.0
 offset_bottom = 477.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_kg30u")
 theme_override_font_sizes/font_size = 25
 text = "Views: 0
 Scrabble: 0"
@@ -80,6 +85,7 @@ offset_top = 401.0
 offset_right = 325.0
 offset_bottom = 474.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_kg30u")
 theme_override_font_sizes/font_size = 25
 text = "Words: 0
 Images: 0"
@@ -90,7 +96,9 @@ offset_top = 313.0
 offset_right = 320.0
 offset_bottom = 382.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("3_kg30u")
 theme_override_font_sizes/normal_font_size = 15
+text = "This is a test article"
 horizontal_alignment = 1
 vertical_alignment = 1
 
